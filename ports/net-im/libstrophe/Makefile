@@ -22,7 +22,8 @@ GH_COMMIT=     d693cc6
 
 DIST_SUBDIR=   ${PORTNAME}
 
-USE_AUTOTOOLS= libtoolize autoconf aclocal
+AUTOMAKE_ARGS= --add-missing
+USE_AUTOTOOLS= libtoolize autoconf aclocal automake
 GNU_CONFIGURE= yes
 
 .include <bsd.port.mk>
