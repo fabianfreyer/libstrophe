@@ -9,7 +9,8 @@ MASTER_SITES=  GH
 MAINTAINER=    fabian.freyer@physik.tu-berlin.de
 COMMENT=       A simple, lightweight C library for writing XMPP clients
 
-LICENSE=       GPLv3
+LICENSE=       GPLv3 MIT
+LICENSE_COMB=  dual
 
 BUILD_DEPENDS= pkgconf:${PORTSDIR}/devel/pkgconf
 LIB_DEPENDS=   libcheck.so:${PORTSDIR}/devel/libcheck
