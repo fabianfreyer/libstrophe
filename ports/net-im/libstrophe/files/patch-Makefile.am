@@ -1,0 +1,19 @@
+--- ./Makefile.am.orig	2014-08-08 18:49:46.000000000 +0200
++++ ./Makefile.am	2014-09-26 02:12:30.130724354 +0200
+@@ -1,5 +1,6 @@
+ AUTOMAKE_OPTIONS = subdir-objects
+
++ACLOCAL_AMFLAGS = -I m4
+ AM_CFLAGS = -g -Wall
+
+ PARSER_CFLAGS=@PARSER_CFLAGS@
+@@ -32,6 +33,9 @@
+ include_HEADERS = strophe.h
+ noinst_HEADERS = strophepp.h
+
++pkgconfigdir = $(libdir)/pkgconfig
++pkgconfig_DATA = libstrophe.pc
++
+ EXTRA_DIST = docs
+
+ ## Examples

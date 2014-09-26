@@ -1,0 +1,15 @@
+--- ./.gitignore.orig	2014-08-08 18:49:46.000000000 +0200
++++ ./.gitignore	2014-09-26 02:12:30.129722551 +0200
+@@ -25,6 +25,7 @@
+ tests/*.o
+ tests/check_parser
+ *.a
++*.pc
+ *.tar.gz
+ *.zip
+ docs/html
+@@ -41,3 +42,4 @@
+ tests/test_jid
+ tests/test_sasl
+ tests/test_sock
++m4/

@@ -3,3 +3,5 @@ lib/libstrophe.a
 lib/libstrophe.la
 lib/libstrophe.so
 lib/libstrophe.so.0
+lib/pkgconfig/libstrophe.pc
+@dirrmtry lib/pkgconfig
