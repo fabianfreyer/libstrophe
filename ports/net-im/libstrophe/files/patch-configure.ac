@@ -1,5 +1,5 @@
---- ./configure.ac.orig	2014-08-08 18:49:46.000000000 +0200
-+++ ./configure.ac	2014-09-26 02:12:30.130724354 +0200
+--- ./configure.ac.orig	2014-09-26 05:14:12.775974518 +0200
++++ ./configure.ac	2014-09-26 05:15:33.381966621 +0200
 @@ -1,4 +1,5 @@
  AC_INIT([libstrophe], [0.8.5], [jack@metajack.im])
 +AC_CONFIG_MACRO_DIR([m4])
@@ -17,10 +17,18 @@
  PKG_CHECK_MODULES([check], [check >= 0.9.4], [], [AC_MSG_WARN([libcheck not found; unit tests will not be compilable])])
 
  AC_ARG_WITH([libxml2],
-@@ -64,5 +67,5 @@
+@@ -60,6 +63,14 @@
+
+ AC_CHECK_HEADERS([arpa/nameser_compat.h])
+
++
++m4_ifdef([PKG_INSTALLDIR], [PKG_INSTALLDIR],
++        [AC_ARG_WITH([pkgconfigdir],
++                [AS_HELP_STRING([--with-pkgconfigdir],
++                        [install directory for openconnect.pc pkg-config file])],
++                [],[with_pkgconfigdir='$(libdir)/pkgconfig'])
++        AC_SUBST([pkgconfigdir], [${with_pkgconfigdir}])])
++
+ AM_CONDITIONAL([PARSER_EXPAT], [test x$with_parser != xlibxml2])
  AC_SUBST(PARSER_NAME)
  AC_SUBST(PARSER_CFLAGS)
- AC_SUBST(PARSER_LIBS)
--AC_CONFIG_FILES([Makefile])
-+AC_CONFIG_FILES([Makefile libstrophe.pc])
- AC_OUTPUT
