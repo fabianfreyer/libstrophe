@@ -6,7 +6,7 @@ PORTVERSION=   0.8.6
 CATEGORIES=    net-im
 MASTER_SITES=  GH
 
-MAINTAINER=    fabian.freyer@physik.tu-berlin.de
+MAINTAINER=    nobody@example.org
 COMMENT=       A simple, lightweight C library for writing XMPP clients
 
 LICENSE=       GPLv3 MIT
