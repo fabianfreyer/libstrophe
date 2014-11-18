@@ -2,11 +2,11 @@
 # $FreeBSD$
 
 PORTNAME=      libstrophe
-PORTVERSION=   0.8.6
+PORTVERSION=   0.8.7
 CATEGORIES=    net-im
 MASTER_SITES=  GH
 
-MAINTAINER=    nobody@example.org
+MAINTAINER=    nobody@example.net
 COMMENT=       A simple, lightweight C library for writing XMPP clients
 
 LICENSE=       GPLv3 MIT
@@ -18,7 +18,7 @@ LIB_DEPENDS=   libcheck.so:${PORTSDIR}/devel/libcheck
 USE_GITHUB=    yes
 GH_ACCOUNT=    strophe
 GH_PROJECT=    libstrophe
-GH_COMMIT=     d693cc6
+GH_COMMIT=     2093aac
 
 DIST_SUBDIR=   ${PORTNAME}
 

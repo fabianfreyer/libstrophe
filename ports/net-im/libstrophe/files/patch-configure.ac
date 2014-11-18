@@ -1,34 +1,71 @@
---- ./configure.ac.orig	2014-09-26 05:14:12.775974518 +0200
-+++ ./configure.ac	2014-09-26 05:15:33.381966621 +0200
-@@ -1,4 +1,5 @@
- AC_INIT([libstrophe], [0.8.5], [jack@metajack.im])
-+AC_CONFIG_MACRO_DIR([m4])
- AM_INIT_AUTOMAKE([foreign])
- LT_INIT([dlopen])
-
-@@ -11,7 +12,9 @@
+--- ./configure.ac.orig	2014-10-31 03:13:49.000000000 +0100
++++ ./configure.ac	2014-11-18 17:45:00.183686673 +0100
+@@ -12,11 +12,11 @@
    [freebsd*], [PLATFORM="freebsd"],
    [PLATFORM="nix"])
-
--PKG_CHECK_MODULES([openssl], [openssl], [], [AC_MSG_ERROR([openssl not found; openssl required])])
-+PKG_CHECK_MODULES([openssl], [openssl], [],
-+            [AC_CHECK_HEADER(openssl/ssl.h, [openssl_LIBS="-lssl -lcrypto"], [AC_MSG_ERROR([openssl not found; openssl required])])])
-+
- PKG_CHECK_MODULES([check], [check >= 0.9.4], [], [AC_MSG_WARN([libcheck not found; unit tests will not be compilable])])
-
- AC_ARG_WITH([libxml2],
-@@ -60,6 +63,14 @@
-
- AC_CHECK_HEADERS([arpa/nameser_compat.h])
-
-+
-+m4_ifdef([PKG_INSTALLDIR], [PKG_INSTALLDIR],
-+        [AC_ARG_WITH([pkgconfigdir],
-+                [AS_HELP_STRING([--with-pkgconfigdir],
-+                        [install directory for openconnect.pc pkg-config file])],
-+                [],[with_pkgconfigdir='$(libdir)/pkgconfig'])
-+        AC_SUBST([pkgconfigdir], [${with_pkgconfigdir}])])
-+
+ 
+-PKG_CHECK_MODULES([openssl], [openssl], [PC_REQUIRES+=(openssl)],
++PKG_CHECK_MODULES([openssl], [openssl], [PC_REQUIRES="openssl ${PC_REQUIRES}"],
+             [AC_CHECK_HEADER([openssl/ssl.h],
+                              [
+                               openssl_LIBS="-lssl -lcrypto"
+-                              PC_LIBS+=($openssl_LIBS)
++                              PC_LIBS="${openssl_LIBS} ${PC_LIBS}"
+                              ],
+                              [AC_MSG_ERROR([openssl not found; openssl required])]
+                             )])
+@@ -32,7 +32,7 @@
+   PKG_CHECK_MODULES([libxml2], [libxml-2.0 >= 2.7],
+                     [
+                      with_libxml2=yes
+-                     PC_REQUIRES+=(libxml-2.0)
++                     PC_REQUIRES="libxml-2.0 ${PC_REQUIRES}"
+                     ],
+                     [
+                      old_CFLAGS=$CFLAGS
+@@ -42,19 +42,19 @@
+                                       with_libxml2=yes
+                                       libxml2_CFLAGS="-I${includedir}/libxml2"
+                                       libxml2_LIBS="-lxml2"
+-                                      PC_LIBS+=($libxml2_LIBS)
+-                                      PC_CFLAGS+=($libxml2_CFLAGS)
++                                      PC_LIBS="${libxml2_LIBS} ${PC_LIBS}"
++                                      PC_CFLAGS="${libxml2_CFLAGS} ${PC_CFLAGS}"
+                                      ],
+                                      [AC_MSG_ERROR([libxml2 not found.])])
+                      CFLAGS=$old_CFLAGS
+                     ])
+ else
+   PKG_CHECK_MODULES([expat], [expat >= 2.0.0],
+-                    [PC_REQUIRES+=(expat)],
++                    [PC_REQUIRES="expat ${PC_REQUIRES}"],
+                     [AC_CHECK_HEADER([expat.h],
+                                      [
+                                       expat_LIBS="-lexpat"
+-                                      PC_LIBS+=($expat_LIBS)
++                                      PC_LIBS="${expat_LIBS} ${PC_LIBS}"
+                                      ],
+                                      [AC_MSG_ERROR([expat not found; expat required.])]
+                                     )
+@@ -80,7 +80,7 @@
+         AC_CHECK_LIB([resolv], [res_query], [],
+             [AC_CHECK_LIB([resolv], [__res_query], [],
+                 [AC_MSG_ERROR([libresolv not found; libresolv required.])])])
+-        PC_LIBS+=(-lresolv)
++        PC_LIBS="-lresolv ${PC_LIBS}"
+ else
+         AC_MSG_NOTICE([skipping libresolv checks for freebsd])
+ fi
+@@ -97,9 +97,9 @@
+ 
  AM_CONDITIONAL([PARSER_EXPAT], [test x$with_parser != xlibxml2])
+ 
+-AC_SUBST([PC_REQUIRES], [${PC_REQUIRES[[@]]}])
+-AC_SUBST([PC_CFLAGS], [${PC_CFLAGS[[@]]}])
+-AC_SUBST([PC_LIBS], [${PC_LIBS[[@]]}])
++AC_SUBST([PC_REQUIRES], [${PC_REQUIRES}])
++AC_SUBST([PC_CFLAGS], [${PC_CFLAGS}])
++AC_SUBST([PC_LIBS], [${PC_LIBS}])
+ 
  AC_SUBST(PARSER_NAME)
  AC_SUBST(PARSER_CFLAGS)
