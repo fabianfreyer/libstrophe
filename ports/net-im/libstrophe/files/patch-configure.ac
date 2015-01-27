@@ -1,9 +1,9 @@
---- ./configure.ac.orig	2014-10-31 03:13:49.000000000 +0100
-+++ ./configure.ac	2014-11-18 17:45:00.183686673 +0100
-@@ -12,11 +12,11 @@
+--- configure.ac.orig   2015-01-27 23:23:08 UTC
++++ configure.ac
+@@ -12,11 +12,11 @@ AS_CASE([$host_os],
    [freebsd*], [PLATFORM="freebsd"],
    [PLATFORM="nix"])
- 
+
 -PKG_CHECK_MODULES([openssl], [openssl], [PC_REQUIRES+=(openssl)],
 +PKG_CHECK_MODULES([openssl], [openssl], [PC_REQUIRES="openssl ${PC_REQUIRES}"],
              [AC_CHECK_HEADER([openssl/ssl.h],
@@ -14,7 +14,7 @@
                               ],
                               [AC_MSG_ERROR([openssl not found; openssl required])]
                              )])
-@@ -32,7 +32,7 @@
+@@ -32,7 +32,7 @@ if test "x$with_libxml2" != xno; then
    PKG_CHECK_MODULES([libxml2], [libxml-2.0 >= 2.7],
                      [
                       with_libxml2=yes
@@ -23,7 +23,7 @@
                      ],
                      [
                       old_CFLAGS=$CFLAGS
-@@ -42,19 +42,19 @@
+@@ -42,19 +42,19 @@ if test "x$with_libxml2" != xno; then
                                        with_libxml2=yes
                                        libxml2_CFLAGS="-I${includedir}/libxml2"
                                        libxml2_LIBS="-lxml2"
@@ -47,7 +47,7 @@
                                       ],
                                       [AC_MSG_ERROR([expat not found; expat required.])]
                                      )
-@@ -80,7 +80,7 @@
+@@ -80,7 +80,7 @@ if test "x$PLATFORM" != xfreebsd; then
          AC_CHECK_LIB([resolv], [res_query], [],
              [AC_CHECK_LIB([resolv], [__res_query], [],
                  [AC_MSG_ERROR([libresolv not found; libresolv required.])])])
@@ -56,16 +56,17 @@
  else
          AC_MSG_NOTICE([skipping libresolv checks for freebsd])
  fi
-@@ -97,9 +97,9 @@
- 
+@@ -97,9 +97,10 @@ m4_ifdef([PKG_INSTALLDIR], [PKG_INSTALLD
+
  AM_CONDITIONAL([PARSER_EXPAT], [test x$with_parser != xlibxml2])
- 
+
 -AC_SUBST([PC_REQUIRES], [${PC_REQUIRES[[@]]}])
 -AC_SUBST([PC_CFLAGS], [${PC_CFLAGS[[@]]}])
 -AC_SUBST([PC_LIBS], [${PC_LIBS[[@]]}])
 +AC_SUBST([PC_REQUIRES], [${PC_REQUIRES}])
 +AC_SUBST([PC_CFLAGS], [${PC_CFLAGS}])
 +AC_SUBST([PC_LIBS], [${PC_LIBS}])
- 
++AC_SUBST([LIB_VERSION], [0:0:0])
+
  AC_SUBST(PARSER_NAME)
  AC_SUBST(PARSER_CFLAGS)
